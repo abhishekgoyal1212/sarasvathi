@@ -1,0 +1,72 @@
+@extends('admin.index')
+@section('title','STUDENTS')
+@section('content')
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><?php echo ucfirst($type);?> Student</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="">Home</a></li>
+                        <li class="breadcrumb-item active">Student</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                   
+                    <div class="card-body">
+                        <table id="data-table" class="table table-hover table-bordered table-striped el-table">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Name</th>
+                                    <th>Contact No.</th>
+                                    @if($type == 'school')
+                                    <th>School Name</th>
+                                    @endif
+                                    <th>Icon</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($all_info as $single_info)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$single_info->fullname}}</td>
+                                    <td>{{$single_info->mobile}}</td>
+                                    @if($type == 'school')
+                                    <td>{{$single_info->school->fullname}}</td>
+                                    @endif
+
+                                    <td><img src="{{asset('admin-assets/img/student/'.$single_info->avatar)}}" class="sm-img"></td>
+                                    <td>
+                                        @if($single_info->user_status == 1)
+                                        <a href="{{route('student.status',[$single_info->id,0])}}" class="text-success"><strong>Active</strong></a>
+                                        @else
+                                        <a href="{{route('student.status',[$single_info->id,1])}}" class="text-danger"><strong>Inactive</strong></a>
+                                        @endif
+                                    </td>
+                                    <td><a href="{{route('student.details',[$single_info->id])}}"><button type="button" class="btn btn-block bg-gradient-warning btn-xs my-1">Details</button></a>
+                                        
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@stop
